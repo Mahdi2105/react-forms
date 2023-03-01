@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [nameTouch, setNameTouch] = useState(false);
+  const [formVal, setFormVal] = useState(false);
 
   const nameVal = enteredName.trim() !== "";
   const nameInputInvalid = !nameVal && nameTouch;
+
+  // This would be used if I had more than 1 form input
+  useEffect(() => {
+    if (nameVal) {
+      setFormVal(true);
+    } else {
+      setFormVal(false);
+    }
+  }, [nameVal]);
 
   const nameChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -52,7 +62,7 @@ const SimpleInput = (props) => {
           )}
         </div>
         <div className="form-actions">
-          <button>Submit</button>
+          <button disabled={!formVal}>Submit</button>
         </div>
       </form>
     </React.Fragment>
